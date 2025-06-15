@@ -24,6 +24,8 @@ app.use(loggingMiddleware);
 app.use("/auth", authRoutes);
 app.use("/posts", postsRouter);
 
-connectDB();
+connectDB().catch((err) => {
+  console.error("DB connection failed:", err);
+});
 
 export default app;
