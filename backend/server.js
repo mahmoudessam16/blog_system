@@ -8,7 +8,13 @@ import loggingMiddleware from "./middlewares/loggerMiddleware.js";
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://blog-system-front.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,8 +24,6 @@ app.use(loggingMiddleware);
 app.use("/auth", authRoutes);
 app.use("/posts", postsRouter);
 
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-  });
-});
+connectDB();
+
+export default app;
